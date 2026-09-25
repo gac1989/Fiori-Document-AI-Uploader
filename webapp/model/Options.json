@@ -1,0 +1,5 @@
+{
+    "clientId": "default",
+    "documentType": "invoice",
+    "schemaName": "invoice_schema"
+}

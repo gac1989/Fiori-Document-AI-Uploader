@@ -1,0 +1,30 @@
+<mvc:View controllerName="sap.btp.doxsapui5.controller.Master"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:u="sap.ui.unified"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc">
+
+	<SplitApp
+		id="SplitAppDemo">
+		<masterPages>
+			<Page id="master" title="Upload File">
+			<l:VerticalLayout  id="layout_uploader" class="sapUiMediumMargin">
+				<u:FileUploader
+					id="fileUploader"
+					tooltip="Upload your file to Document Infromation Extraction"
+					change="onFileChange"/>
+				<Button
+					text="Upload File"
+					press="handleUploadPress"
+					enabled="{viewModel>/uploadEnabled}"/>
+			</l:VerticalLayout>
+			</Page>
+		</masterPages>
+		<detailPages>
+			<core:Fragment fragmentName="sap.btp.doxsapui5.fragment.ObjectPage" type="XML" />
+		</detailPages>
+
+	</SplitApp>
+</mvc:View>
