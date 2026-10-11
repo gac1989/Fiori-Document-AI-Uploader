@@ -16,20 +16,76 @@
 |**Enable TypeScript**<br>False|
 |**Add Eslint configuration**<br>True, see https://www.npmjs.com/package/@sap-ux/eslint-plugin-fiori-tools#rules for the eslint rules.|
 
-## doxsapui5
 
-Document Information Extraction Fiori App
+# Fiori Document AI Uploader
 
-### Starting the generated app
+This project is a SAPUI5/Fiori application executed locally in SAP Business Application Studio (BAS). It interacts with the SAP Document AI service to manage and upload business documents.
 
--   This app has been generated using the SAP Fiori tools - App Generator, as part of the SAP Fiori tools suite.  To launch the generated application, run the following from the generated application root folder:
+## Prerequisites
 
-```
-    npm start
-```
+- Active **SAP Document AI** subscription.
+- SAP Document AI instance (`blocks_of_100` plan) with a **Service Key** generated.
+- **SAP Business Application Studio** (BAS) workspace.
 
-#### Pre-requisites:
+### Destination Configuration in SAP BTP
 
-1. Active NodeJS LTS (Long Term Support) version and associated supported NPM version.  (See https://nodejs.org)
+Create an HTTP Destination at the Subaccount level with the following details:
+
+| Property | Value |
+| :--- | :--- |
+| **Name** | `DOX_Service` |
+| **Type** | `HTTP` |
+| **URL** | *"url"* from the service key + `/document-information-extraction/v1` |
+| **Proxy Type** | `Internet` |
+| **Authentication** | `OAuth2ClientCredentials` |
+| **Client ID** | *"uaa.clientid"* from the service key |
+| **Client Secret** | *"uaa.clientsecret"* from the service key |
+| **Token Service URL** | *"uaa.url"* from the service key + `/oauth/token` |
+
+#### Additional Properties
+
+| Property | Value |
+| :--- | :--- |
+| `WebIDEEnabled` | `true` |
+| `HTML5.DynamicDestination` | `true` |
+| `WebIDEUsage` | `odata_gen` |
+
+---
+
+## Startup & Deployment
+
+### 1. Document AI Schema Setup
+
+1. Navigate to the `tests/` folder in the root of this project and download the `invoice_schema_schema.json` file.
+    2. Access your **SAP Document AI** subscription via the BTP Cockpit.
+3. Go to the **Schemas** section on the left menu, click **Import**, and upload the downloaded JSON file.
+4. Make sure to **Activate** the schema after a successful import.
+
+### 2. Run the Application in BAS
+
+Open the terminal in SAP Business Application Studio and execute the following steps:
+
+1. **Clone the repository and enter the directory:**
+   ```bash
+   git clone https://github.com/gac1989/Fiori-Document-AI-Uploader.git
+   cd Fiori-Document-AI-Uploader
+   ```
+
+2. **Log in to Cloud Foundry:** *(Mandatory so the local Fiori proxy middleware can discover and resolve your BTP Destination)*:
+   ```bash
+   cf login
+   ```
+
+3. **Install dependencies and start the local server:**
+   ```bash
+   npm install
+   npm start
+   ```
+
+### 3. Testing the App
+
+To test the document extraction workflow, upload the sample PDF file `sample_invoice.pdf` located inside the `tests/` folder using the application UI.
+
+
 
 
