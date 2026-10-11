@@ -12,15 +12,13 @@ sap.ui.define([
 
     return Controller.extend("sap.btp.doxsapui5.controller.Master", {
         onInit() {
-            // init models
-           // this.localModel = this.getOwnerComponent().getModel();
             this.oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 
-           // se crea un modelo para los datos y se lo bindea a la vista
+            // Create a model for the data
             const oModel = {}
             this.getView().setModel(new JSONModel(oModel), "invoice")
 
-            // se crea un modelo para las banderas y se lo bindea a la vista
+            // Create a UI state model for visibility and editing flags 
             const oModel2 = {
                 editable: false,
                 refreshEnabled: false,
@@ -52,7 +50,6 @@ sap.ui.define([
         },
 
         async onRefresh() {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             const response = await this._getStatus()
             if (response.status === "DONE") {
                 this._setInvoiceData(response.extraction)
@@ -86,7 +83,7 @@ sap.ui.define([
             const options = this.getOwnerComponent().getModel("options").getData()
             formData.append('options', JSON.stringify(options))
 
-            //call die
+            //call document ai 
             const response = await this._postToDox(formData)
             this._jobId = response.id;
 
@@ -115,9 +112,9 @@ sap.ui.define([
         _getbaseUrl() {
             const appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");
             const appPath = appId.replaceAll(".", "/");
-            const appModulePath = sap.ui.require.toUrl(appPath);
+            var appModulePath = sap.ui.require.toUrl(appPath);
 
-            if (appModulePath === ".") {
+            if (appModulePath === "..") {
                 appModulePath = "";
             }
 

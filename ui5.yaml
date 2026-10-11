@@ -17,8 +17,8 @@ server:
           url: https://ui5.sap.com
         backend:
           - path: /document-information-extraction/v1
-            url: https://5495a8f7trial.us10-trial.doc.cloud.sap
             destination: DOX_Service
+            pathPrefix: /
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:
